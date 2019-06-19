@@ -2,6 +2,21 @@ kotlin {
     js {
         nodejs()
 
+        def c = project.rootProject.ext.browser
+        def b = c.newInstance([it].toArray())
+        def m = c.superclass.getDeclaredMethod("configureTests")
+        m.setAccessible(true)
+        m.invoke(b)
+
+        b.testTask {
+            useKarma {
+//                useFirefox()
+                useChromeHeadless()
+
+                useConfigDirectory(new File(project.rootProject.projectDir, "karma"))
+            }
+        }
+
         compilations.main.kotlinOptions {
             metaInfo = true
             sourceMap = true
@@ -29,6 +44,8 @@ kotlin {
         }
         jsTest.dependencies {
             api "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+            api(npm("source-map-loader", "*"))
+            api(npm("puppeteer", "*"))
             api(npm("source-map-support", source_map_support_version))
             api(npm("text-encoding", text_encoding_version))
             api(npm("node-fetch", node_fetch_version))
