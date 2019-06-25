@@ -141,7 +141,9 @@ class HttpRequestData internal constructor(
     val body: OutgoingContent,
     val executionContext: Job,
     val attributes: Attributes
-)
+) {
+    override fun toString(): String = "HttpRequestData(url=$url, method=$method)"
+}
 
 
 /**
@@ -156,6 +158,8 @@ class HttpResponseData constructor(
     val callContext: CoroutineContext
 ) {
     val responseTime: GMTDate = GMTDate()
+
+    override fun toString(): String = "HttpResponseData=(statusCode=$statusCode)"
 }
 
 /**
