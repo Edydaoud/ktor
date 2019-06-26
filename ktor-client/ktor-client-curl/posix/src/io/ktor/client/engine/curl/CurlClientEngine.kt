@@ -59,7 +59,7 @@ internal class CurlClientEngine(override val config: CurlClientEngineConfig) : H
 }
 
 @Suppress("KDocMissingDocumentation")
-class CurlIllegalStateException(cause: String) : IllegalStateException(cause)
+internal class CurlIllegalStateException(cause: String) : IllegalStateException(cause)
 
 @Suppress("KDocMissingDocumentation")
-class CurlRuntimeException(cause: String) : RuntimeException(cause)
+internal class CurlRuntimeException(cause: String) : RuntimeException(cause)
