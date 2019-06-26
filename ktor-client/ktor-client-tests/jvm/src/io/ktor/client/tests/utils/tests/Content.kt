@@ -12,11 +12,15 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
+import kotlinx.coroutines.io.*
 import kotlin.test.*
 
 internal fun Application.contentTestServer() {
     routing {
         route("/content") {
+            get("/hello") {
+                call.respond("hello")
+            }
             post("/echo") {
                 val content = call.request.receiveChannel().toByteArray()
                 call.respond(content)
@@ -59,6 +63,15 @@ internal fun Application.contentTestServer() {
                 if (value != 42) call.fail("Invalid content")
 
                 call.respond(HttpStatusCode.OK)
+            }
+            get("/stream") {
+                call.respond(object : OutgoingContent.WriteChannelContent() {
+                    override suspend fun writeTo(channel: ByteWriteChannel) {
+                        while (true) {
+                            channel.writeInt(42)
+                        }
+                    }
+                })
             }
         }
     }

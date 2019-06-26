@@ -38,7 +38,7 @@ abstract class ConnectionTest(val factory: HttpClientEngineFactory<*>) : TestWit
     }
 
     @Test
-    fun contentLengthWithEmptyBodyTest() = clientTest(factory) {
+    fun testContentLengthWithEmptyBody() = clientTest(factory) {
         test { client ->
             repeat(10) {
                 val response = client.call {
@@ -58,7 +58,7 @@ abstract class ConnectionTest(val factory: HttpClientEngineFactory<*>) : TestWit
     }
 
     @Test
-    fun closeResponseWithConnectionPipelineTest() = clientTest(factory) {
+    fun testCloseResponseWithConnectionPipeline() = clientTest(factory) {
         suspend fun HttpClient.testCall(): HttpClientCall = call {
             url {
                 port = serverPort

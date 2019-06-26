@@ -31,12 +31,12 @@ abstract class PostTest(private val factory: HttpClientEngineFactory<*>) : TestW
     }
 
     @Test
-    fun postString() {
+    fun testPostString() {
         postHelper(makeString(777))
     }
 
     @Test
-    fun hugePost() {
+    fun testHugePost() {
         postHelper(makeString(32 * 1024 * 1024))
     }
 

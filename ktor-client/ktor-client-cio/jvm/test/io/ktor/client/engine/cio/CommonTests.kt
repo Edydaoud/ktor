@@ -9,15 +9,9 @@ import io.ktor.client.tests.*
 
 class CIOCookiesTest : CookiesTest(CIO)
 
-class CIOAttributesTest : AttributesTest(CIO)
-
 class CIOPostTest : PostTest(CIO)
 
-class CIOFullFormTest : FullFormTest(CIO)
-
 class CIOMultithreadedTest : MultithreadedTest(CIO)
-
-class CIORedirectTest : HttpRedirectTest(CIO)
 
 class CIOBuildersTest : BuildersTest(CIO)
 
