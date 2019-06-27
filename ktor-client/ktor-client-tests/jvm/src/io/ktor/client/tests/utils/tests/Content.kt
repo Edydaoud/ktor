@@ -18,8 +18,21 @@ import kotlin.test.*
 internal fun Application.contentTestServer() {
     routing {
         route("/content") {
+            get("/empty") {
+                call.respond("")
+            }
+            head("/emptyHead") {
+                call.respond(object : OutgoingContent.NoContent() {
+                    override val contentLength: Long = 150
+                })
+            }
             get("/hello") {
                 call.respond("hello")
+            }
+            get("/xxx") {
+                call.respond(buildString {
+                    append("x".repeat(100))
+                })
             }
             post("/echo") {
                 val content = call.request.receiveChannel().toByteArray()

@@ -9,9 +9,6 @@ import org.junit.*
 
 class AndroidCookiesTest : CookiesTest(Android)
 
-class AndroidPostTest : PostTest(Android)
-
-@Ignore
 class AndroidMultithreadedTest : MultithreadedTest(Android)
 
 class AndroidBuildersTest : BuildersTest(Android)
