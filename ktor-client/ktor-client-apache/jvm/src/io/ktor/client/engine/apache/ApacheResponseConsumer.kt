@@ -18,6 +18,9 @@ internal class ApacheResponseConsumer(
 ) : CoroutineScope, HttpAsyncResponseConsumer<Unit> {
     private val contentReader = ContentReader()
 
+    @Volatile
+    private var exception: Exception? = null
+
     init {
         coroutineContext[Job]!!.invokeOnCompletion {
             contentReader.close(it)
@@ -35,13 +38,15 @@ internal class ApacheResponseConsumer(
     }
 
     override fun failed(cause: Exception) {
+        exception = cause
         cancel(CancellationException("Fail to execute request", cause))
         contentReader.close(cause)
     }
 
     override fun cancel(): Boolean {
+        exception = CancellationException("Request canceled", null)
         coroutineContext.cancel()
-        contentReader.close(CancellationException("Request canceled", null))
+        contentReader.close(exception)
         return true
     }
 
@@ -51,7 +56,7 @@ internal class ApacheResponseConsumer(
         contentReader.close()
     }
 
-    override fun getException(): Exception? = null
+    override fun getException(): Exception? = exception
 
     override fun close() {
         contentReader.close()

@@ -72,15 +72,12 @@ internal class ContentReader : CoroutineDispatcher(), Continuation<Unit> {
 
     fun consume(decoder: ContentDecoder, ioControl: IOControl) {
         hasData = true
-        if (state.isCompleted) {
-            ioControl.shutdown()
-            return
-        }
+        if (state.isCompleted) return
 
         currentDecoder = decoder
         control = ioControl
 
-        while (hasData) {
+        while (hasData && events.isNotEmpty()) {
             runNextEvent()
         }
     }
